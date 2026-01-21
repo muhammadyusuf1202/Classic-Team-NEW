@@ -313,11 +313,10 @@
             <div class="nav-item text-sm font-black hover:text-[var(--pl-neon)] transition-all" onclick="setFilter('s')">SHORTS</div>
         </div>
 
-        <div class="flex items-center gap-4">
-            <div class="search-box hidden md:flex">
-                <i class="fa-solid fa-search opacity-40"></i>
-                <input type="text" id="mainSearch" placeholder="Qidiruv..." oninput="renderContent()">
-            </div>
+                <div class="flex items-center gap-4">
+            <input type="text" id="mainSearch" placeholder="Qidiruv..." oninput="renderContent()" class="hidden sm:block bg-black/5 border border-black/10 px-4 py-2 rounded-full text-sm outline-none">
+            <a href="app-release.apk" download="Classic-Team.apk" class="sm:hidden text-2xl text-[var(--pl-neon)]"><i class="fa-solid fa-download"></i></a>
+        </div>
             <div class="user-profile-circle" onclick="toggleDropdown()">
                 <img id="nav-avatar" src="https://www.w3schools.com/howto/img_avatar.png">
             </div>
@@ -566,5 +565,6 @@
 </body>
 
 </html>
+
 
 
