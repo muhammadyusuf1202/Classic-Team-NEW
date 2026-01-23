@@ -41,6 +41,8 @@
 </head>
 <body class="light-mode">
 
+    <div id="qr-modal" class="fixed inset-0 z-[5000] hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="relative bg-white p-8 rounded-3xl shadow-2xl text-center max-w-xs animate-pop">
             <button onclick="closeQR()" class="absolute -top-3 -right-3 w-10 h-10 bg-red-500 text-white rounded-full font-bold shadow-lg flex items-center justify-center text-2xl">&times;</button>
             <img src="https://raw.githubusercontent.com/muhammadyusuf1202/Classic-Team-NEW/main/frame.png" class="w-full rounded-2xl mb-4 border" alt="QR Code">
             <p class="text-black font-black text-[10px] uppercase tracking-widest leading-tight">Ilovani o'rnatish uchun skanerlang!</p>
@@ -73,7 +75,7 @@
 
     <div id="profile-dropdown" class="profile-dropdown">
         <div class="flex items-center gap-4 mb-6 p-3 bg-black/5 dark:bg-white/5 rounded-2xl">
-            <img id="menu-avatar" src="" class="w-16 h-16 rounded-full border-2 border-[var(--pl-neon)]">
+            <img id="menu-avatar" src="" class="w-16 h-16 rounded-full border-2 border-[var(--pl-neon)] object-cover">
             <div>
                 <h4 id="menu-name" class="font-black text-xl text-[var(--pl-text)] uppercase"></h4>
                 <p id="menu-tg" class="text-xs opacity-50 text-[var(--pl-text)] font-bold"></p>
@@ -111,7 +113,7 @@
             <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('v')">VIDEOLAR</div>
             <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('s')">SHORTS</div>
             <div class="cursor-pointer opacity-40 hover:opacity-100 transition uppercase" onclick="window.location.href='./bio.html'">BIO</div>
-             <div class="cursor-pointer text-[var(--pl-neon)] border border-[var(--pl-neon)] px-3 py-1 rounded-full flex items-center gap-1" onclick="openQR()">
+            <div class="cursor-pointer text-[var(--pl-neon)] border border-[var(--pl-neon)] px-3 py-1 rounded-full flex items-center gap-1" onclick="openQR()">
                 <i class="fa-solid fa-qrcode"></i> SKANERLANG
             </div>
         </div>
@@ -136,17 +138,12 @@
 
     <main id="arena"><div id="content-grid" class="grid-container"></div></main>
 
-        <footer class="mt-20 py-20 border-t border-[var(--pl-border)] bg-[var(--pl-card)]">
+    <footer class="mt-20 py-20 border-t border-[var(--pl-border)] bg-[var(--pl-card)]">
         <div class="px-[5%] max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16 text-center md:text-left">
                 <div class="space-y-6">
-                    <div class="pl-font text-4xl font-black italic">
-                        CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span>
-                    </div>
-                    <p class="text-sm opacity-60 leading-loose font-medium">
-                        Mahalla futboli madaniyatini raqamli dunyo bilan birlashtiramiz. 
-                        Bizning jamoa — bizning g'ururimiz!
-                    </p>
+                    <div class="pl-font text-4xl font-black italic">CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span></div>
+                    <p class="text-sm opacity-60 leading-loose font-medium">Mahalla futboli madaniyatini raqamli dunyo bilan birlashtiramiz.</p>
                 </div>
                 <div class="space-y-6">
                     <h4 class="pl-font text-xl font-black tracking-widest">Navigatsiya</h4>
@@ -154,21 +151,18 @@
                         <li><a href="#" onclick="setFilter('v')" class="hover:text-[var(--pl-neon)] transition">Videolar</a></li>
                         <li><a href="#" onclick="setFilter('s')" class="hover:text-[var(--pl-neon)] transition">Shorts</a></li>
                         <li><a href="./bio.html" class="hover:text-[var(--pl-neon)] transition">Jamoa Bio</a></li>
-                        <li><a href="app-release.apk" download class="text-[var(--pl-pink)]">APK Yuklab olish</a></li>
                     </ul>
                 </div>
                 <div class="space-y-6">
-                    <h4 class="pl-font text-xl font-black tracking-widest">Ijtimoiy tarmoqlar</h4>
+                    <h4 class="pl-font text-xl font-black tracking-widest">Ijtimoiy</h4>
                     <div class="flex justify-center md:justify-start gap-4">
-                        <a href="https://t.me/classicteam1" class="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center hover:bg-[#0088cc] hover:text-white transition text-2xl shadow-sm"><i class="fa-brands fa-telegram"></i></a>
-                        <a href="https://www.youtube.com/@CLASSIC.TEAM_01" class="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center hover:bg-[#ff0000] hover:text-white transition text-2xl shadow-sm"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="https://www.instagram.com/classic_team.01/" class="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center hover:bg-[#e4405f] hover:text-white transition text-2xl shadow-sm"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://t.me/classicteam1" class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center hover:bg-[#0088cc] hover:text-white transition text-xl"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://www.youtube.com/@CLASSIC.TEAM_01" class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center hover:bg-[#ff0000] hover:text-white transition text-xl"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="pt-10 border-t border-[var(--pl-border)] flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="pt-10 border-t border-[var(--pl-border)] text-center">
                 <p class="text-[10px] font-black opacity-30 uppercase tracking-[5px]">© 2026 CLASSIC TEAM.</p>
-                <p class="text-[10px] font-black opacity-40 uppercase tracking-[2px]">Designed by <span class="text-[var(--pl-neon)]">Muhammadyusuf</span></p>
             </div>
         </div>
     </footer>
@@ -204,27 +198,30 @@
             listenData();
             applyZoom();
             if(localStorage.getItem('theme') === 'dark') toggleTheme(true);
-            
-            // QR Kodni faqat bir marta ko'rsatish
-          function openQR() { 
-            const m = document.getElementById('qr-modal');
-            m.style.display = 'flex'; 
-            m.classList.remove('hidden');
+        };
+
+        // QR FUNKSIYALAR
+        function openQR() { 
+            document.getElementById('qr-modal').classList.remove('hidden');
+            document.getElementById('qr-modal').style.display = 'flex';
         }
         function closeQR() { 
-            document.getElementById('qr-modal').style.display = 'none'; 
-            localStorage.setItem('qr_v1', 'true');
+            document.getElementById('qr-modal').style.display = 'none';
         }
 
+        // PROFIL FUNKSIYALAR
         function openEditModal() {
             document.getElementById('profile-dropdown').style.display = 'none';
+            document.getElementById('edit-profile-modal').classList.remove('hidden');
             document.getElementById('edit-profile-modal').style.display = 'flex';
             document.getElementById('edit-name-input').value = account.name;
             document.getElementById('edit-img-input').value = account.img;
             document.getElementById('edit-tg-input').value = account.tg;
         }
 
-        function closeEditModal() { document.getElementById('edit-profile-modal').style.display = 'none'; }
+        function closeEditModal() { 
+            document.getElementById('edit-profile-modal').style.display = 'none'; 
+        }
 
         function saveProfile() {
             const newName = document.getElementById('edit-name-input').value.trim();
@@ -240,7 +237,14 @@
             closeEditModal();
         }
 
-        // --- ESKI FUNKSIYALAR (TEGILMADI) ---
+        function updateUI() {
+            document.getElementById('nav-avatar').src = account.img;
+            document.getElementById('menu-avatar').src = account.img;
+            document.getElementById('menu-name').innerText = account.name;
+            document.getElementById('menu-tg').innerText = account.tg;
+        }
+
+        // ZOOM & THEME
         function changeFontSize(delta) {
             currentZoom += delta * 10;
             if (currentZoom < 80) currentZoom = 80;
@@ -253,60 +257,6 @@
             document.documentElement.style.fontSize = (currentZoom / 100) * 16 + 'px';
             document.getElementById('font-size-val').innerText = currentZoom + '%';
         }
-
-        function updateUI() {
-            document.getElementById('nav-avatar').src = account.img;
-            document.getElementById('menu-avatar').src = account.img;
-            document.getElementById('menu-name').innerText = account.name;
-            document.getElementById('menu-tg').innerText = account.tg;
-        }
-
-        function listenData() {
-            db.ref('videos').on('value', (snap) => {
-                const val = snap.val();
-                allVideos = val ? Object.keys(val).map(key => ({ id: key, ...val[key] })) : [];
-                renderContent();
-            });
-        }
-
-        function renderContent() {
-            const grid = document.getElementById('content-grid');
-            const search = document.getElementById('mainSearch').value.toLowerCase();
-            grid.innerHTML = '';
-            grid.className = currentMode === 's' ? "grid-container grid-cols-2 md:grid-cols-4 lg:grid-cols-5" : "grid-container grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
-
-            const filtered = allVideos.filter(v => v.type === currentMode && (v.title || "").toLowerCase().includes(search));
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-30 font-black text-2xl uppercase tracking-widest">Videolar topilmadi...</div>`;
-                return;
-            }
-
-            filtered.reverse().forEach(v => {
-                const vidId = extractID(v.url);
-                if (!vidId) return;
-                grid.innerHTML += `
-                    <div class="video-card">
-                        <div class="relative w-full ${currentMode === 's' ? 'aspect-[9/16]' : 'aspect-video'} bg-black">
-                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}?rel=0" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <div class="p-5">
-                            <h3 class="pl-font font-black ${currentMode === 's' ? 'text-xs' : 'text-lg'} uppercase line-clamp-2">${v.title}</h3>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        function extractID(url) {
-            try {
-                if (url.includes('shorts/')) return url.split('shorts/')[1].split(/[?&]/)[0];
-                if (url.includes('v=')) return url.split('v=')[1].split('&')[0];
-                if (url.includes('youtu.be/')) return url.split('youtu.be/')[1].split(/[?&]/)[0];
-                if (url.includes('embed/')) return url.split('embed/')[1].split(/[?&]/)[0];
-            } catch(e) { return null; }
-        }
-
-        function setFilter(f) { currentMode = f; renderContent(); }
 
         function toggleTheme(init = false) {
             if (!init) document.body.classList.toggle('dark-mode');
@@ -321,6 +271,54 @@
             dd.style.display = dd.style.display === 'flex' ? 'none' : 'flex';
         }
 
+        // VIDEO & DATA
+        function listenData() {
+            db.ref('videos').on('value', (snap) => {
+                const val = snap.val();
+                allVideos = val ? Object.keys(val).map(key => ({ id: key, ...val[key] })) : [];
+                renderContent();
+            });
+        }
+
+        function renderContent() {
+            const grid = document.getElementById('content-grid');
+            const search = document.getElementById('mainSearch').value.toLowerCase();
+            grid.innerHTML = '';
+            grid.className = currentMode === 's' ? "grid-container grid-cols-2 md:grid-cols-4 lg:grid-cols-5" : "grid-container grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+
+            const filtered = allVideos.filter(v => (v.type || 'v') === currentMode && (v.title || "").toLowerCase().includes(search));
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-30 font-black text-2xl uppercase tracking-widest text-[var(--pl-text)]">Videolar topilmadi...</div>`;
+                return;
+            }
+
+            filtered.reverse().forEach(v => {
+                const vidId = extractID(v.url);
+                if (!vidId) return;
+                grid.innerHTML += `
+                    <div class="video-card">
+                        <div class="relative w-full ${currentMode === 's' ? 'aspect-[9/16]' : 'aspect-video'} bg-black">
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}?rel=0" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="pl-font font-black ${currentMode === 's' ? 'text-xs' : 'text-lg'} uppercase line-clamp-2 text-[var(--pl-text)]">${v.title}</h3>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function extractID(url) {
+            try {
+                if (url.includes('shorts/')) return url.split('shorts/')[1].split(/[?&]/)[0];
+                if (url.includes('v=')) return url.split('v=')[1].split('&')[0];
+                if (url.includes('youtu.be/')) return url.split('youtu.be/')[1].split(/[?&]/)[0];
+            } catch(e) { return null; }
+        }
+
+        function setFilter(f) { currentMode = f; renderContent(); }
+
+        // CHAT FUNKSIYALAR
         function toggleChat() {
             const win = document.getElementById('chat-window');
             win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
@@ -342,7 +340,7 @@
                     const isMe = m.u === account.name;
                     body.innerHTML += `
                         <div class="flex items-start gap-3 ${isMe ? 'flex-row-reverse' : ''}">
-                            <img src="${m.img}" class="w-8 h-8 rounded-full border-2 border-[var(--pl-neon)]">
+                            <img src="${m.img}" class="w-8 h-8 rounded-full border-2 border-[var(--pl-neon)] object-cover">
                             <div class="${isMe ? 'bg-[var(--pl-purple)] text-white' : 'bg-white dark:bg-zinc-800 text-[var(--pl-text)]'} p-3 rounded-2xl text-xs shadow-md max-w-[80%]">
                                 <p class="font-black text-[8px] opacity-50 uppercase mb-1">${m.u}</p>
                                 <p>${m.t}</p>
@@ -354,12 +352,10 @@
         });
 
         window.onclick = (e) => {
-            if (!e.target.closest('.pl-nav') && !e.target.closest('.profile-dropdown')) {
+            if (!e.target.closest('.pl-nav') && !e.target.closest('.profile-dropdown') && !e.target.closest('.w-12')) {
                 document.getElementById('profile-dropdown').style.display = 'none';
             }
         }
     </script>
 </body>
 </html>
-
-
