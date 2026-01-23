@@ -22,14 +22,16 @@
             --pl-border: rgba(0,0,0,0.1);
             --pl-gradient: linear-gradient(135deg, #3d195b 0%, #240b36 100%);
         }
+
         body.dark-mode {
             --pl-bg: #0d0d0d;
             --pl-card: #181818;
             --pl-text: #eeeeee;
             --pl-border: rgba(255,255,255,0.1);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--pl-bg); color: var(--pl-text); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--pl-bg); color: var(--pl-text); scroll-behavior: smooth; }
         .pl-font { font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
 
         .pl-nav {
@@ -37,25 +39,27 @@
             display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--pl-border);
         }
 
-        .grid-container { display: grid; gap: 30px; padding: 50px 5%; }
+        .hero { min-height: 80vh; background: var(--pl-gradient); display: flex; align-items: center; justify-content: center; text-align: center; color: white; position: relative; }
+        .hero::after { content: ''; position: absolute; bottom: 0; width: 100%; height: 150px; background: linear-gradient(to top, var(--pl-bg), transparent); }
 
-        /* Chat dizayni - Tuzatilgan va chiroyli */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 50px 5%; }
+
+        /* CHAT DIZAYNI TUZATILDI */
         .chat-panel {
             position: fixed; bottom: 100px; right: 30px; width: 320px; height: 450px;
             background: var(--pl-card); border-radius: 20px; display: none; flex-direction: column;
             border: 1px solid var(--pl-border); z-index: 1000; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        #chat-body { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        
-        .msg-bubble { max-width: 80%; padding: 8px 12px; border-radius: 15px; font-size: 13px; line-height: 1.4; }
+        #chat-body { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .msg { max-width: 80%; padding: 10px; border-radius: 15px; font-size: 13px; position: relative; }
         .msg-me { align-self: flex-end; background: var(--pl-purple); color: white; border-bottom-right-radius: 2px; }
         .msg-other { align-self: flex-start; background: #f0f0f0; color: #111; border-bottom-left-radius: 2px; }
-        .msg-user { font-size: 9px; font-weight: 900; opacity: 0.6; margin-bottom: 2px; display: block; }
+        .msg-user { font-size: 9px; font-weight: 900; opacity: 0.5; margin-bottom: 3px; display: block; }
 
-        .hero { min-height: 60vh; background: var(--pl-gradient); display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .btn-primary { background: var(--pl-neon); color: var(--pl-purple); padding: 15px 30px; border-radius: 10px; font-weight: 900; cursor: pointer; }
     </style>
 </head>
-<body>
+<body class="light-mode">
 
     <nav class="pl-nav">
         <div class="flex items-center gap-3">
@@ -64,26 +68,26 @@
             </div>
             <div class="pl-font text-xl font-black italic">CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span></div>
         </div>
-        <div class="hidden md:flex gap-8 font-bold text-xs uppercase tracking-widest">
-            <div onclick="setFilter('v')" class="cursor-pointer hover:text-[var(--pl-neon)]">Videolar</div>
-            <div onclick="setFilter('s')" class="cursor-pointer hover:text-[var(--pl-neon)]">Shorts</div>
+        <div class="hidden md:flex gap-8 font-bold text-xs uppercase">
+            <div onclick="setFilter('v')" class="cursor-pointer hover:text-[var(--pl-neon)]">VIDEOLAR</div>
+            <div onclick="setFilter('s')" class="cursor-pointer hover:text-[var(--pl-neon)]">SHORTS</div>
         </div>
         <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="bg-black/5 border border-black/10 px-4 py-2 rounded-full text-xs outline-none">
     </nav>
 
     <header class="hero">
-        <h1 class="pl-font text-6xl md:text-8xl font-black italic">CLASSIC <span class="text-[var(--pl-neon)]">TEAM</span></h1>
+        <div class="z-10 px-6">
+            <h1 class="pl-font text-7xl md:text-9xl font-black italic mb-4">CLASSIC <span class="text-[var(--pl-neon)]">TEAM</span></h1>
+            <button onclick="document.getElementById('arena').scrollIntoView()" class="btn-primary">TOMOSHANI BOSHLASH</button>
+        </div>
     </header>
 
     <main id="arena">
-        <div id="content-grid" class="grid-container">
-            </div>
+        <div id="content-grid" class="grid-container"></div>
     </main>
 
-    <div id="chat-btn" class="fixed bottom-8 right-8 w-14 h-14 bg-[var(--pl-neon)] rounded-full flex items-center justify-center cursor-pointer shadow-lg z-50" onclick="toggleChat()">
-        <i class="fa-solid fa-comments text-[var(--pl-purple)] text-xl"></i>
-    </div>
-
+    <div id="chat-btn" class="fixed bottom-8 right-8 w-14 h-14 bg-[var(--pl-neon)] rounded-full flex items-center justify-center cursor-pointer z-50 shadow-lg" onclick="toggleChat()"><i class="fa-solid fa-message text-[var(--pl-purple)]"></i></div>
+    
     <div id="chat-window" class="chat-panel">
         <div class="p-4 bg-[var(--pl-purple)] text-white font-bold flex justify-between items-center text-xs">
             <span>MUXLISLAR CHATI</span>
@@ -92,7 +96,7 @@
         <div id="chat-body"></div>
         <div class="p-3 border-t flex gap-2">
             <input type="text" id="chat-input" placeholder="Xabar..." class="flex-1 outline-none text-sm" onkeypress="if(event.key==='Enter') sendChat()">
-            <button onclick="sendChat()" class="text-[var(--pl-neon)] font-bold text-sm">OK</button>
+            <button onclick="sendChat()" class="text-[var(--pl-neon)] font-bold">YUBORISH</button>
         </div>
     </div>
 
@@ -107,15 +111,15 @@
 
         window.onload = () => { listenData(); };
 
-        // VIDEOLARNI TO'G'RI YUKLASH
+        // 1. VIDEOLARNI CHIQARISH TUZATILDI
         function listenData() {
             db.ref('videos').on('value', (snap) => {
                 const data = snap.val();
                 if (data) {
-                    allVideos = Object.keys(data).map(key => data[key]);
+                    allVideos = Object.values(data); // Ob'ektni massivga o'tkazish
                     renderContent();
                 } else {
-                    document.getElementById('content-grid').innerHTML = "<p class='col-span-full text-center opacity-40'>Videolar hali yuklanmagan.</p>";
+                    document.getElementById('content-grid').innerHTML = "<p class='text-center col-span-full opacity-50'>Hozircha videolar yo'q.</p>";
                 }
             });
         }
@@ -130,24 +134,27 @@
                 ? (isMobile ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(200px, 1fr))")
                 : (isMobile ? "1fr" : "repeat(auto-fill, minmax(350px, 1fr))");
 
-            const filtered = allVideos.filter(v => v.type === currentMode && (v.title || "").toLowerCase().includes(search));
+            const filtered = allVideos.filter(v => 
+                v.type === currentMode && (v.title || "").toLowerCase().includes(search)
+            );
 
             filtered.reverse().forEach(v => {
                 const vidId = extractID(v.url);
-                if (vidId) {
-                    grid.innerHTML += `
-                        <div class="bg-[var(--pl-card)] rounded-xl overflow-hidden border border-[var(--pl-border)]">
-                            <div class="relative w-full" style="padding-top: ${currentMode === 's' ? '170%' : '56.25%'}">
-                                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            <div class="p-4"><h3 class="font-bold text-sm line-clamp-2">${v.title}</h3></div>
-                        </div>`;
-                }
+                if (!vidId) return;
+                grid.innerHTML += `
+                    <div class="bg-[var(--pl-card)] rounded-xl overflow-hidden border border-[var(--pl-border)]">
+                        <div class="relative w-full" style="padding-top: ${currentMode === 's' ? '170%' : '56.25%'}">
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="pl-font font-bold text-sm line-clamp-2">${v.title}</h3>
+                        </div>
+                    </div>`;
             });
         }
 
         function extractID(url) {
-            if (!url) return null;
+            if(!url) return null;
             let id = null;
             if (url.includes('shorts/')) id = url.split('shorts/')[1].split(/[?&]/)[0];
             else if (url.includes('v=')) id = url.split('v=')[1].split('&')[0];
@@ -157,7 +164,7 @@
 
         function setFilter(f) { currentMode = f; renderContent(); }
 
-        // CHAT FUNKSIYALARI
+        // 2. CHAT DIZAYNI VA LOGIKASI TUZATILDI
         function toggleChat() {
             const win = document.getElementById('chat-window');
             win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
@@ -170,16 +177,16 @@
             inp.value = '';
         }
 
-        db.ref('chat').limitToLast(15).on('value', (snap) => {
+        db.ref('chat').limitToLast(20).on('value', (snap) => {
             const body = document.getElementById('chat-body');
             body.innerHTML = '';
             snap.forEach(child => {
                 const m = child.val();
                 const isMe = m.u === account.name;
                 body.innerHTML += `
-                    <div class="${isMe ? 'msg-me' : 'msg-other'} msg-bubble">
+                    <div class="msg ${isMe ? 'msg-me' : 'msg-other'}">
                         <span class="msg-user">${m.u}</span>
-                        <div>${m.t}</div>
+                        <p>${m.t}</p>
                     </div>`;
             });
             body.scrollTop = body.scrollHeight;
