@@ -206,15 +206,14 @@
             if(localStorage.getItem('theme') === 'dark') toggleTheme(true);
             
             // QR Kodni faqat bir marta ko'rsatish
-            if(localStorage.getItem('qr_seen') !== 'true') {
-                document.getElementById('qr-modal').style.display = 'flex';
-            }
-        };
-
-        // --- YANGI FUNKSIYALAR ---
+          function openQR() { 
+            const m = document.getElementById('qr-modal');
+            m.style.display = 'flex'; 
+            m.classList.remove('hidden');
+        }
         function closeQR() { 
             document.getElementById('qr-modal').style.display = 'none'; 
-            localStorage.setItem('qr_seen', 'true');
+            localStorage.setItem('qr_v1', 'true');
         }
 
         function openEditModal() {
@@ -362,4 +361,5 @@
     </script>
 </body>
 </html>
+
 
