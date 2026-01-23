@@ -54,15 +54,15 @@
             <h2 class="pl-font text-2xl font-black mb-6 text-[var(--pl-text)]">Profilni tahrirlash</h2>
             <div class="space-y-4">
                 <div>
-                    <label class="text-[10px] font-black opacity-50 uppercase ml-2">Ismingiz</label>
+                    <label class="text-[10px] font-black opacity-50 uppercase ml-2 text-[var(--pl-text)]">Ismingiz</label>
                     <input type="text" id="edit-name-input" class="w-full bg-black/5 dark:bg-white/5 p-4 rounded-xl outline-none border-2 border-transparent focus:border-[var(--pl-neon)] text-[var(--pl-text)]">
                 </div>
                 <div>
-                    <label class="text-[10px] font-black opacity-50 uppercase ml-2">Profil rasm URL</label>
+                    <label class="text-[10px] font-black opacity-50 uppercase ml-2 text-[var(--pl-text)]">Profil rasm URL</label>
                     <input type="text" id="edit-img-input" class="w-full bg-black/5 dark:bg-white/5 p-4 rounded-xl outline-none border-2 border-transparent focus:border-[var(--pl-neon)] text-[var(--pl-text)]">
                 </div>
                 <div>
-                    <label class="text-[10px] font-black opacity-50 uppercase ml-2">Telegram @username</label>
+                    <label class="text-[10px] font-black opacity-50 uppercase ml-2 text-[var(--pl-text)]">Telegram @username</label>
                     <input type="text" id="edit-tg-input" class="w-full bg-black/5 dark:bg-white/5 p-4 rounded-xl outline-none border-2 border-transparent focus:border-[var(--pl-neon)] text-[var(--pl-text)]">
                 </div>
             </div>
@@ -109,11 +109,16 @@
             </div>
             <div class="pl-font text-2xl md:text-3xl font-black italic tracking-tighter">CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span></div>
         </div>
-        <div class="hidden md:flex gap-10 font-black text-xs tracking-widest">
+        
+        <div class="hidden md:flex gap-10 font-black text-xs tracking-widest items-center">
             <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('v')">VIDEOLAR</div>
             <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('s')">SHORTS</div>
             <div class="cursor-pointer opacity-40 hover:opacity-100 transition uppercase" onclick="window.location.href='./bio.html'">BIO</div>
+            <div class="cursor-pointer text-[var(--pl-neon)] hover:scale-110 transition uppercase flex items-center gap-2" onclick="openQR()">
+                <i class="fa-solid fa-qrcode"></i> Skanerlang
+            </div>
         </div>
+
         <div class="flex items-center gap-5">
             <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="hidden lg:block bg-black/5 border-2 border-transparent focus:border-[var(--pl-neon)] px-6 py-3 rounded-full text-sm outline-none text-[var(--pl-text)] dark:bg-white/10">
             <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--pl-neon)] cursor-pointer hover:scale-110 transition shadow-xl" onclick="toggleDropdown()">
@@ -133,9 +138,11 @@
         </div>
     </header>
 
-    <main id="arena"><div id="content-grid" class="grid-container"></div></main>
+    <main id="arena">
+        <div id="content-grid" class="grid-container"></div>
+    </main>
 
-        <footer class="mt-20 py-20 border-t border-[var(--pl-border)] bg-[var(--pl-card)]">
+    <footer class="mt-20 py-20 border-t border-[var(--pl-border)] bg-[var(--pl-card)]">
         <div class="px-[5%] max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16 text-center md:text-left">
                 <div class="space-y-6">
@@ -153,6 +160,7 @@
                         <li><a href="#" onclick="setFilter('v')" class="hover:text-[var(--pl-neon)] transition">Videolar</a></li>
                         <li><a href="#" onclick="setFilter('s')" class="hover:text-[var(--pl-neon)] transition">Shorts</a></li>
                         <li><a href="./bio.html" class="hover:text-[var(--pl-neon)] transition">Jamoa Bio</a></li>
+                        <li><a href="#" onclick="openQR()" class="hover:text-[var(--pl-neon)] transition">Skanerlang</a></li>
                         <li><a href="app-release.apk" download class="text-[var(--pl-pink)]">APK Yuklab olish</a></li>
                     </ul>
                 </div>
@@ -204,18 +212,26 @@
             applyZoom();
             if(localStorage.getItem('theme') === 'dark') toggleTheme(true);
             
-            // QR Kodni faqat bir marta ko'rsatish
-            if(localStorage.getItem('qr_seen') !== 'true') {
-                document.getElementById('qr-modal').style.display = 'flex';
+            // Sayt ochilganda QR Kodni bir marta avtomatik ko'rsatish
+            if(localStorage.getItem('qr_seen_new') !== 'true') {
+                setTimeout(() => {
+                    openQR();
+                }, 2000);
             }
         };
 
-        // --- YANGI FUNKSIYALAR ---
-        function closeQR() { 
-            document.getElementById('qr-modal').style.display = 'none'; 
-            localStorage.setItem('qr_seen', 'true');
+        // --- QR MODAL FUNKSIYALARI ---
+        function openQR() {
+            document.getElementById('qr-modal').classList.remove('hidden');
+            document.getElementById('qr-modal').style.display = 'flex';
         }
 
+        function closeQR() { 
+            document.getElementById('qr-modal').style.display = 'none'; 
+            localStorage.setItem('qr_seen_new', 'true'); // Bir marta ko'rildi deb belgilash
+        }
+
+        // --- PROFIL FUNKSIYALARI ---
         function openEditModal() {
             document.getElementById('profile-dropdown').style.display = 'none';
             document.getElementById('edit-profile-modal').style.display = 'flex';
@@ -240,7 +256,7 @@
             closeEditModal();
         }
 
-        // --- ESKI FUNKSIYALAR (TEGILMADI) ---
+        // --- INTERFEYS FUNKSIYALARI ---
         function changeFontSize(delta) {
             currentZoom += delta * 10;
             if (currentZoom < 80) currentZoom = 80;
@@ -261,6 +277,7 @@
             document.getElementById('menu-tg').innerText = account.tg;
         }
 
+        // --- DATA LOGIC ---
         function listenData() {
             db.ref('videos').on('value', (snap) => {
                 const val = snap.val();
@@ -278,7 +295,7 @@
             const filtered = allVideos.filter(v => v.type === currentMode && (v.title || "").toLowerCase().includes(search));
             
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-30 font-black text-2xl uppercase tracking-widest">Videolar topilmadi...</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-30 font-black text-2xl uppercase tracking-widest">Ma'lumot topilmadi...</div>`;
                 return;
             }
 
@@ -291,7 +308,7 @@
                             <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}?rel=0" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <div class="p-5">
-                            <h3 class="pl-font font-black ${currentMode === 's' ? 'text-xs' : 'text-lg'} uppercase line-clamp-2">${v.title}</h3>
+                            <h3 class="pl-font font-black ${currentMode === 's' ? 'text-xs' : 'text-lg'} uppercase line-clamp-2 text-[var(--pl-text)]">${v.title}</h3>
                         </div>
                     </div>`;
             });
