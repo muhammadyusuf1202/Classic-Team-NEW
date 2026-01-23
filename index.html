@@ -41,11 +41,9 @@
 </head>
 <body class="light-mode">
 
-    <div id="qr-modal" class="fixed inset-0 z-[5000] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
-        <div class="relative bg-white p-8 rounded-3xl shadow-2xl text-center max-w-xs animate-pop">
-            <button onclick="closeQR()" class="absolute -top-4 -right-4 w-10 h-10 bg-red-500 text-white rounded-full font-bold shadow-lg">×</button>
-            <img src="./frame.png" class="w-full rounded-2xl mb-4" alt="QR Code">
-            <p class="text-black font-black text-xs uppercase tracking-widest leading-tight">Ilovani o'rnatish uchun skanerlang!</p>
+            <button onclick="closeQR()" class="absolute -top-3 -right-3 w-10 h-10 bg-red-500 text-white rounded-full font-bold shadow-lg flex items-center justify-center text-2xl">&times;</button>
+            <img src="https://raw.githubusercontent.com/muhammadyusuf1202/Classic-Team-NEW/main/frame.png" class="w-full rounded-2xl mb-4 border" alt="QR Code">
+            <p class="text-black font-black text-[10px] uppercase tracking-widest leading-tight">Ilovani o'rnatish uchun skanerlang!</p>
         </div>
     </div>
 
@@ -113,6 +111,9 @@
             <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('v')">VIDEOLAR</div>
             <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('s')">SHORTS</div>
             <div class="cursor-pointer opacity-40 hover:opacity-100 transition uppercase" onclick="window.location.href='./bio.html'">BIO</div>
+             <div class="cursor-pointer text-[var(--pl-neon)] border border-[var(--pl-neon)] px-3 py-1 rounded-full flex items-center gap-1" onclick="openQR()">
+                <i class="fa-solid fa-qrcode"></i> SKANERLANG
+            </div>
         </div>
         <div class="flex items-center gap-5">
             <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="hidden lg:block bg-black/5 border-2 border-transparent focus:border-[var(--pl-neon)] px-6 py-3 rounded-full text-sm outline-none text-[var(--pl-text)] dark:bg-white/10">
@@ -361,3 +362,4 @@
     </script>
 </body>
 </html>
+
