@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -34,69 +35,92 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--pl-bg); color: var(--pl-text); scroll-behavior: smooth; }
         .pl-font { font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
 
+        /* Navbar */
         .pl-nav {
             background: var(--pl-card); padding: 0.8rem 5%; position: sticky; top: 0; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--pl-border);
         }
 
-        .hero { min-height: 80vh; background: var(--pl-gradient); display: flex; align-items: center; justify-content: center; text-align: center; color: white; position: relative; }
-        .hero::after { content: ''; position: absolute; bottom: 0; width: 100%; height: 150px; background: linear-gradient(to top, var(--pl-bg), transparent); }
+        /* Hero */
+        .hero {
+            min-height: 70vh; background: var(--pl-gradient); display: flex; align-items: center; justify-content: center;
+            text-align: center; color: white; position: relative; padding: 40px 20px;
+        }
 
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 50px 5%; }
+        .btn-primary { background: var(--pl-neon); color: var(--pl-purple); padding: 15px 30px; border-radius: 12px; font-weight: 900; cursor: pointer; }
 
-        /* CHAT DIZAYNI TUZATILDI */
+        /* Grid - Videolar uchun */
+        .grid-container { display: grid; gap: 20px; padding: 40px 5%; }
+
+        /* Chat Dizayni */
+        #chat-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: var(--pl-neon); border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 24px; color: var(--pl-purple); cursor: pointer; z-index: 900;
+        }
         .chat-panel {
             position: fixed; bottom: 100px; right: 30px; width: 320px; height: 450px;
             background: var(--pl-card); border-radius: 20px; display: none; flex-direction: column;
             border: 1px solid var(--pl-border); z-index: 1000; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        #chat-body { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-        .msg { max-width: 80%; padding: 10px; border-radius: 15px; font-size: 13px; position: relative; }
+        .msg-bubble { max-width: 85%; padding: 10px; border-radius: 15px; font-size: 13px; line-height: 1.4; }
         .msg-me { align-self: flex-end; background: var(--pl-purple); color: white; border-bottom-right-radius: 2px; }
-        .msg-other { align-self: flex-start; background: #f0f0f0; color: #111; border-bottom-left-radius: 2px; }
-        .msg-user { font-size: 9px; font-weight: 900; opacity: 0.5; margin-bottom: 3px; display: block; }
-
-        .btn-primary { background: var(--pl-neon); color: var(--pl-purple); padding: 15px 30px; border-radius: 10px; font-weight: 900; cursor: pointer; }
+        .msg-other { align-self: flex-start; background: #eee; color: #111; border-bottom-left-radius: 2px; }
     </style>
 </head>
 <body class="light-mode">
 
-    <nav class="pl-nav">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-[var(--pl-neon)] cursor-pointer" onclick="toggleDropdown()">
-                <img id="nav-avatar" src="https://www.w3schools.com/howto/img_avatar.png" class="w-full h-full object-cover">
+    <div id="profile-dropdown" class="absolute top-[70px] right-[5%] w-[280px] bg-[var(--pl-card)] border border-[var(--pl-border)] rounded-2xl p-5 hidden flex-col z-[1100] shadow-2xl">
+        <div class="flex items-center gap-3 mb-4">
+            <img id="menu-avatar" src="https://www.w3schools.com/howto/img_avatar.png" class="w-12 h-12 rounded-full border-2 border-[var(--pl-neon)]">
+            <div>
+                <h4 id="menu-name" class="font-bold">Mehmon</h4>
+                <p id="menu-tg" class="text-xs opacity-50">@user</p>
             </div>
-            <div class="pl-font text-xl font-black italic">CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span></div>
         </div>
-        <div class="hidden md:flex gap-8 font-bold text-xs uppercase">
+        <button onclick="openSettings()" class="text-left p-3 hover:bg-black/5 rounded-lg text-sm font-semibold">Profilni tahrirlash</button>
+        <div class="flex justify-between items-center mt-3 pt-3 border-t">
+            <span id="mode-label" class="text-[10px] font-bold opacity-50">KUNDUZGI</span>
+            <button onclick="toggleTheme()" class="text-xl"><i id="theme-icon" class="fa-solid fa-moon"></i></button>
+        </div>
+    </div>
+
+    <nav class="pl-nav">
+        <div class="pl-font text-xl font-black italic">CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span></div>
+        <div class="hidden md:flex gap-8 font-bold text-xs">
             <div onclick="setFilter('v')" class="cursor-pointer hover:text-[var(--pl-neon)]">VIDEOLAR</div>
             <div onclick="setFilter('s')" class="cursor-pointer hover:text-[var(--pl-neon)]">SHORTS</div>
         </div>
-        <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="bg-black/5 border border-black/10 px-4 py-2 rounded-full text-xs outline-none">
+        <div class="flex items-center gap-3">
+            <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="bg-black/5 border px-4 py-2 rounded-full text-xs outline-none w-32 focus:w-48 transition-all">
+            <div class="w-10 h-10 rounded-full border-2 border-[var(--pl-neon)] cursor-pointer overflow-hidden" onclick="toggleDropdown()">
+                <img id="nav-avatar" src="./ChatGPT Image Jan 14, 2026, 06_09_13 PM.png" class="w-full h-full object-cover">
+            </div>
+        </div>
     </nav>
 
     <header class="hero">
-        <div class="z-10 px-6">
-            <h1 class="pl-font text-7xl md:text-9xl font-black italic mb-4">CLASSIC <span class="text-[var(--pl-neon)]">TEAM</span></h1>
-            <button onclick="document.getElementById('arena').scrollIntoView()" class="btn-primary">TOMOSHANI BOSHLASH</button>
+        <div class="z-10 text-center">
+            <h1 class="pl-font text-6xl md:text-8xl font-black italic mb-4">CLASSIC <span class="text-[var(--pl-neon)]">TEAM</span></h1>
+            <button onclick="document.getElementById('arena').scrollIntoView()" class="btn-primary">VIDEOLARNI KO'RISH</button>
         </div>
     </header>
 
     <main id="arena">
-        <div id="content-grid" class="grid-container"></div>
+        <div id="content-grid" class="grid-container">
+            </div>
     </main>
 
-    <div id="chat-btn" class="fixed bottom-8 right-8 w-14 h-14 bg-[var(--pl-neon)] rounded-full flex items-center justify-center cursor-pointer z-50 shadow-lg" onclick="toggleChat()"><i class="fa-solid fa-message text-[var(--pl-purple)]"></i></div>
-    
+    <div id="chat-btn" onclick="toggleChat()"><i class="fa-solid fa-message"></i></div>
     <div id="chat-window" class="chat-panel">
         <div class="p-4 bg-[var(--pl-purple)] text-white font-bold flex justify-between items-center text-xs">
             <span>MUXLISLAR CHATI</span>
             <button onclick="toggleChat()">&times;</button>
         </div>
-        <div id="chat-body"></div>
+        <div id="chat-body" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3"></div>
         <div class="p-3 border-t flex gap-2">
-            <input type="text" id="chat-input" placeholder="Xabar..." class="flex-1 outline-none text-sm" onkeypress="if(event.key==='Enter') sendChat()">
-            <button onclick="sendChat()" class="text-[var(--pl-neon)] font-bold">YUBORISH</button>
+            <input type="text" id="chat-input" placeholder="Xabar..." class="flex-1 text-sm outline-none" onkeypress="if(event.key==='Enter') sendChat()">
+            <button onclick="sendChat()" class="text-[var(--pl-neon)]"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
 
@@ -107,20 +131,24 @@
 
         let currentMode = 'v';
         let allVideos = [];
-        let account = JSON.parse(localStorage.getItem('pl_account')) || { name: "Muxlis", img: "https://www.w3schools.com/howto/img_avatar.png" };
+        let account = JSON.parse(localStorage.getItem('pl_account')) || { name: "Muxlis", img: "https://www.w3schools.com/howto/img_avatar.png", tg: "@user" };
 
-        window.onload = () => { listenData(); };
+        window.onload = () => {
+            listenData();
+            updateUI();
+        };
 
-        // 1. VIDEOLARNI CHIQARISH TUZATILDI
+        function updateUI() {
+            document.getElementById('menu-name').innerText = account.name;
+            document.getElementById('menu-avatar').src = account.img;
+        }
+
+        // MA'LUMOTLARNI OLISH (Tuzatilgan qism)
         function listenData() {
             db.ref('videos').on('value', (snap) => {
-                const data = snap.val();
-                if (data) {
-                    allVideos = Object.values(data); // Ob'ektni massivga o'tkazish
-                    renderContent();
-                } else {
-                    document.getElementById('content-grid').innerHTML = "<p class='text-center col-span-full opacity-50'>Hozircha videolar yo'q.</p>";
-                }
+                const val = snap.val();
+                allVideos = val ? Object.values(val) : [];
+                renderContent();
             });
         }
 
@@ -134,15 +162,18 @@
                 ? (isMobile ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(200px, 1fr))")
                 : (isMobile ? "1fr" : "repeat(auto-fill, minmax(350px, 1fr))");
 
-            const filtered = allVideos.filter(v => 
-                v.type === currentMode && (v.title || "").toLowerCase().includes(search)
-            );
+            const filtered = allVideos.filter(v => v.type === currentMode && (v.title || "").toLowerCase().includes(search));
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10 opacity-40">Ma'lumot topilmadi...</div>`;
+                return;
+            }
 
             filtered.reverse().forEach(v => {
                 const vidId = extractID(v.url);
                 if (!vidId) return;
                 grid.innerHTML += `
-                    <div class="bg-[var(--pl-card)] rounded-xl overflow-hidden border border-[var(--pl-border)]">
+                    <div class="bg-[var(--pl-card)] rounded-xl overflow-hidden border border-[var(--pl-border)] shadow-sm">
                         <div class="relative w-full" style="padding-top: ${currentMode === 's' ? '170%' : '56.25%'}">
                             <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe>
                         </div>
@@ -164,7 +195,7 @@
 
         function setFilter(f) { currentMode = f; renderContent(); }
 
-        // 2. CHAT DIZAYNI VA LOGIKASI TUZATILDI
+        // CHAT LOGIKASI (Tuzatilgan qism)
         function toggleChat() {
             const win = document.getElementById('chat-window');
             win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
@@ -180,19 +211,31 @@
         db.ref('chat').limitToLast(20).on('value', (snap) => {
             const body = document.getElementById('chat-body');
             body.innerHTML = '';
-            snap.forEach(child => {
-                const m = child.val();
-                const isMe = m.u === account.name;
-                body.innerHTML += `
-                    <div class="msg ${isMe ? 'msg-me' : 'msg-other'}">
-                        <span class="msg-user">${m.u}</span>
-                        <p>${m.t}</p>
-                    </div>`;
-            });
-            body.scrollTop = body.scrollHeight;
+            const msgs = snap.val();
+            if(msgs) {
+                Object.values(msgs).forEach(m => {
+                    const isMe = m.u === account.name;
+                    body.innerHTML += `
+                        <div class="msg-bubble ${isMe ? 'msg-me' : 'msg-other'}">
+                            <p class="text-[9px] font-black opacity-50 mb-1">${m.u}</p>
+                            <p>${m.t}</p>
+                        </div>`;
+                });
+                body.scrollTop = body.scrollHeight;
+            }
         });
 
-        function toggleDropdown() { /* Profil menyu funksiyasi */ }
+        function toggleDropdown() {
+            const dd = document.getElementById('profile-dropdown');
+            dd.style.display = dd.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('theme-icon').className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
     </script>
 </body>
 </html>
