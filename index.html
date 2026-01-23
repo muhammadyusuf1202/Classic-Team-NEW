@@ -22,6 +22,7 @@
             --pl-text: #111111;
             --pl-border: rgba(0,0,0,0.1);
             --pl-gradient: linear-gradient(135deg, #3d195b 0%, #240b36 100%);
+            font-size: 16px; /* Bazaviy font o'lchami */
         }
 
         body.dark-mode {
@@ -31,7 +32,7 @@
             --pl-border: rgba(255,255,255,0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease, font-size 0.2s ease; }
         
         body { 
             font-family: 'Inter', sans-serif; 
@@ -43,10 +44,9 @@
 
         .pl-font { font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
 
-        /* Navbar */
         .pl-nav {
             background: var(--pl-card);
-            padding: 0.8rem 5%;
+            padding: 1.2rem 5%; /* Navbarni kottalashtirdik */
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -57,17 +57,6 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        .nav-links div {
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            transition: 0.3s;
-        }
-        .nav-links div:hover { opacity: 1; color: var(--pl-neon); }
-
-        /* Hero */
         .hero {
             min-height: 80vh;
             background: var(--pl-gradient);
@@ -79,200 +68,246 @@
             color: white;
             padding: 40px 20px;
         }
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0; width: 100%; height: 150px;
-            background: linear-gradient(to top, var(--pl-bg), transparent);
-        }
 
-        .btn-primary {
-            background: var(--pl-neon); color: var(--pl-purple);
-            padding: 18px 35px; border-radius: 12px;
-            font-weight: 900; text-transform: uppercase; transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .btn-download {
-            background: white; color: black;
-            padding: 18px 35px; border-radius: 12px;
-            font-weight: 900; text-transform: uppercase; transition: 0.3s;
-            display: inline-flex; align-items: center; gap: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        .btn-download:hover { background: var(--pl-neon); transform: translateY(-3px); }
-
-        /* Grid */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
+            gap: 25px;
             padding: 50px 5%;
         }
 
-        /* Dropdown & Modals */
-        .profile-dropdown {
-            position: absolute; top: 70px; right: 5%; width: 280px;
-            background: var(--pl-card); border-radius: 16px; padding: 20px;
-            display: none; flex-direction: column; z-index: 1100;
-            border: 1px solid var(--pl-border); box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        .video-card {
+            background: var(--pl-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--pl-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.3s;
         }
+        .video-card:hover { transform: translateY(-5px); }
 
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(10px); z-index: 2000; display: none;
-            align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: var(--pl-card); width: 90%; max-width: 400px;
-            padding: 30px; border-radius: 20px; position: relative;
+        .profile-dropdown {
+            position: absolute; top: 85px; right: 5%; width: 320px; /* Kattaroq dropdown */
+            background: var(--pl-card); border-radius: 20px; padding: 25px;
+            display: none; flex-direction: column; z-index: 1100;
+            border: 1px solid var(--pl-border); box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
         #chat-btn {
             position: fixed; bottom: 30px; right: 30px;
-            width: 60px; height: 60px; background: var(--pl-neon);
+            width: 70px; height: 70px; /* Kattaroq chat tugmasi */
+            background: var(--pl-neon);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; color: var(--pl-purple); cursor: pointer; z-index: 900;
+            font-size: 28px; color: var(--pl-purple); cursor: pointer; z-index: 900;
+            box-shadow: 0 10px 30px var(--pl-neon);
         }
+
+        .btn-primary { background: var(--pl-neon); color: var(--pl-purple); padding: 18px 40px; border-radius: 14px; font-weight: 900; cursor: pointer; border: none; font-size: 1.1rem; }
         .chat-panel {
-            position: fixed; bottom: 100px; right: 30px;
-            width: 320px; height: 450px; background: var(--pl-card);
-            border-radius: 20px; display: none; flex-direction: column;
-            border: 1px solid var(--pl-border); z-index: 1000; overflow: hidden;
+            position: fixed !important;
+            bottom: 110px !important;
+            right: 30px !important;
+            width: 350px;
+            height: 500px;
+            background: var(--pl-card);
+            border-radius: 24px;
+            display: none;
+            flex-direction: column;
+            border: 1px solid var(--pl-border);
+            z-index: 3000 !important;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        /* Mobil qurilmalar uchun moslashuv */
+        @media (max-width: 480px) {
+            .chat-panel {
+                width: calc(100% - 40px);
+                right: 20px;
+                bottom: 100px;
+                height: 70vh;
+            }
         }
     </style>
 </head>
 <body class="light-mode">
 
     <div id="profile-dropdown" class="profile-dropdown">
-        <div class="flex items-center gap-3 mb-4">
-            <img id="menu-avatar" src="https://www.w3schools.com/howto/img_avatar.png" class="w-12 h-12 rounded-full border-2 border-[var(--pl-neon)]">
+        <div class="flex items-center gap-4 mb-6 p-3 bg-black/5 dark:bg-white/5 rounded-2xl">
+            <img id="menu-avatar" src="https://www.w3schools.com/howto/img_avatar.png" class="w-16 h-16 rounded-full border-2 border-[var(--pl-neon)]">
             <div>
-                <h4 id="menu-name" class="font-bold">Mehmon</h4>
-                <p id="menu-tg" class="text-xs opacity-50">@username</p>
+                <h4 id="menu-name" class="font-black text-xl text-[var(--pl-text)] uppercase">Mehmon</h4>
+                <p id="menu-tg" class="text-xs opacity-50 text-[var(--pl-text)] font-bold">@username</p>
             </div>
         </div>
-        <button onclick="openSettings()" class="w-full text-left p-3 hover:bg-black/5 rounded-lg text-sm font-semibold">
+
+        <div class="p-4 border-2 border-[var(--pl-neon)]/20 rounded-2xl mb-4">
+            <p class="text-[10px] font-black opacity-50 mb-3 tracking-widest uppercase text-center text-[var(--pl-text)]">Yozuvlar hajmi</p>
+            <div class="flex justify-between items-center gap-4">
+                <button onclick="changeFontSize(-1)" class="w-12 h-12 bg-black/5 dark:bg-white/10 rounded-xl font-bold hover:bg-[var(--pl-neon)] hover:text-black transition text-xl">-</button>
+                <span id="font-size-val" class="font-black text-xl text-[var(--pl-text)]">100%</span>
+                <button onclick="changeFontSize(1)" class="w-12 h-12 bg-black/5 dark:bg-white/10 rounded-xl font-bold hover:bg-[var(--pl-neon)] hover:text-black transition text-xl">+</button>
+            </div>
+        </div>
+
+        <button onclick="alert('Tez kunda...')" class="w-full text-left p-4 hover:bg-[var(--pl-neon)] hover:text-black rounded-xl text-sm font-black transition mb-2 uppercase text-[var(--pl-text)]">
             <i class="fa-solid fa-user-gear mr-2"></i> Profilni tahrirlash
         </button>
-        <hr class="my-3 opacity-10">
-        <div class="flex justify-between items-center">
-            <span class="text-[10px] font-bold opacity-50 uppercase" id="mode-label">KUNDUZGI</span>
-            <button onclick="toggleTheme()" class="text-xl"><i id="theme-icon" class="fa-solid fa-moon"></i></button>
-        </div>
-    </div>
 
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <button onclick="closeSettings()" class="absolute top-4 right-4 text-2xl">&times;</button>
-            <h2 class="pl-font text-2xl font-black mb-5">PROFILNI TAHRIRLASH</h2>
-            <input type="text" id="edit-name" class="w-full p-3 bg-black/5 rounded-lg mb-3 outline-none" placeholder="Ism">
-            <input type="text" id="edit-img" class="w-full p-3 bg-black/5 rounded-lg mb-3 outline-none" placeholder="Rasm URL">
-            <input type="text" id="edit-tg" class="w-full p-3 bg-black/5 rounded-lg mb-5 outline-none" placeholder="@username">
-            <button onclick="saveProfile()" class="btn-primary w-full">SAQLASH</button>
+        <hr class="my-3 opacity-10">
+        <div class="flex justify-between items-center px-2">
+            <span class="text-[10px] font-black opacity-50 uppercase text-[var(--pl-text)]" id="mode-label">KUNDUZGI</span>
+            <button onclick="toggleTheme()" class="text-2xl text-[var(--pl-text)]"><i id="theme-icon" class="fa-solid fa-moon"></i></button>
         </div>
     </div>
 
     <nav class="pl-nav">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-[var(--pl-neon)] cursor-pointer" onclick="toggleDropdown()">
-                <img id="nav-avatar" src="https://www.w3schools.com/howto/img_avatar.png" class="w-full h-full object-cover">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl overflow-hidden border-2 border-[var(--pl-neon)] shadow-lg">
+                <img src="./ChatGPT Image Jan 14, 2026, 06_09_13 PM.png" class="w-full h-full object-cover" alt="Logo">
             </div>
-            <div class="pl-font text-xl font-black italic">
+            <div class="pl-font text-2xl md:text-3xl font-black italic tracking-tighter">
                 CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span>
             </div>
         </div>
 
-        <div class="hidden md:flex nav-links gap-8">
-            <div onclick="setFilter('v')">VIDEOLAR</div>
-            <div onclick="setFilter('s')">SHORTS</div>
-            <div onclick="window.location.href='./bio.html'" class="opacity-40">BIO</div>
+        <div class="hidden md:flex gap-10 font-black text-xs tracking-widest">
+            <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('v')">VIDEOLAR</div>
+            <div class="cursor-pointer hover:text-[var(--pl-neon)] transition uppercase" onclick="setFilter('s')">SHORTS</div>
+            <div class="cursor-pointer opacity-40 hover:opacity-100 transition uppercase" onclick="window.location.href='./bio.html'">BIO</div>
         </div>
 
-        <div class="flex items-center gap-3">
-            <div class="relative hidden sm:block">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs opacity-30"></i>
-                <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="bg-black/5 border border-black/10 pl-9 pr-4 py-2 rounded-full text-xs outline-none w-40 focus:w-56 transition-all">
+        <div class="flex items-center gap-5">
+            <div class="relative hidden lg:block">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-sm opacity-40"></i>
+                <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="bg-black/5 border-2 border-transparent focus:border-[var(--pl-neon)] pl-12 pr-6 py-3 rounded-full text-sm outline-none w-48 focus:w-64 transition-all text-[var(--pl-text)] dark:bg-white/10">
             </div>
-            <a href="app-release.apk" download class="text-[var(--pl-neon)] text-xl md:hidden"><i class="fa-solid fa-download"></i></a>
+
+            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--pl-neon)] cursor-pointer hover:scale-110 transition shadow-xl" onclick="toggleDropdown()">
+                <img id="nav-avatar" src="https://www.w3schools.com/howto/img_avatar.png" class="w-full h-full object-cover">
+            </div>
         </div>
     </nav>
 
-    <div class="md:hidden flex justify-around py-3 bg-[var(--pl-card)] border-b border-black/5 text-[10px] font-black tracking-widest">
-        <div onclick="setFilter('v')">VIDEOLAR</div>
-        <div onclick="setFilter('s')">SHORTS</div>
-        <div onclick="window.location.href='./bio.html'">BIO</div>
+    <div class="md:hidden flex justify-around py-5 bg-[var(--pl-card)] border-b border-black/5 text-[10px] font-black tracking-widest">
+        <div onclick="setFilter('v')" class="cursor-pointer hover:text-[var(--pl-neon)]">VIDEOLAR</div>
+        <div onclick="setFilter('s')" class="cursor-pointer hover:text-[var(--pl-neon)]">SHORTS</div>
+        <div onclick="window.location.href='./bio.html'" class="cursor-pointer">BIO</div>
     </div>
 
     <header class="hero">
         <div class="z-10 px-6 max-w-4xl">
-            <h1 class="pl-font text-6xl md:text-9xl font-black italic leading-[0.8] mb-6">
+            <h1 class="pl-font text-7xl md:text-9xl font-black italic leading-[0.8] mb-6">
                 CLASSIC <br> <span class="text-[var(--pl-neon)]">TEAM</span>
             </h1>
-            <p class="opacity-80 mb-10 text-sm md:text-lg tracking-[0.3em] uppercase font-bold">
+            <p class="opacity-80 mb-10 text-sm md:text-xl tracking-[0.4em] uppercase font-black">
                 Mahalla futbolining yangi afsonasi
             </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button onclick="document.getElementById('arena').scrollIntoView()" class="btn-primary w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
+                <button onclick="document.getElementById('arena').scrollIntoView({behavior:'smooth'})" class="btn-primary w-full sm:w-auto shadow-2xl">
                     TOMOSHANI BOSHLASH <i class="fa-solid fa-play ml-2"></i>
                 </button>
-                <a href="app-release.apk" download="Classic_Team.apk" class="btn-download w-full sm:w-auto">
-                    <i class="fa-solid fa-mobile-screen-button"></i> MOBIL VERSIDAN YUKLASH
+                <a href="app-release.apk" download class="bg-white text-black px-10 py-[18px] rounded-14 font-black rounded-xl inline-flex items-center gap-3 hover:bg-gray-200 transition">
+                    <i class="fa-solid fa-mobile-screen-button"></i> APK YUKLASH
                 </a>
             </div>
         </div>
     </header>
 
     <main id="arena">
-        <div id="content-grid" class="grid-container">
-            </div>
+        <div id="content-grid" class="grid-container"></div>
     </main>
+
+    <footer class="mt-20 py-20 border-t border-[var(--pl-border)] bg-[var(--pl-card)]">
+        <div class="px-[5%] max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16 text-center md:text-left">
+                <div class="space-y-6">
+                    <div class="pl-font text-4xl font-black italic">
+                        CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span>
+                    </div>
+                    <p class="text-sm opacity-60 leading-loose font-medium">
+                        Mahalla futboli madaniyatini raqamli dunyo bilan birlashtiramiz. 
+                        Bizning jamoa — bizning g'ururimiz!
+                    </p>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="pl-font text-xl font-black tracking-widest">Navigatsiya</h4>
+                    <ul class="text-sm space-y-3 opacity-70 font-bold uppercase tracking-wider">
+                        <li><a href="#" onclick="setFilter('v')" class="hover:text-[var(--pl-neon)] transition">Videolar</a></li>
+                        <li><a href="#" onclick="setFilter('s')" class="hover:text-[var(--pl-neon)] transition">Shorts</a></li>
+                        <li><a href="./bio.html" class="hover:text-[var(--pl-neon)] transition">Jamoa Bio</a></li>
+                        <li><a href="app-release.apk" download class="text-[var(--pl-pink)]">APK Yuklab olish</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="pl-font text-xl font-black tracking-widest">Ijtimoiy tarmoqlar</h4>
+                    <div class="flex justify-center md:justify-start gap-4">
+                        <a href="https://t.me/classicteam1" class="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center hover:bg-[#0088cc] hover:text-white transition text-2xl shadow-sm"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://www.youtube.com/@CLASSIC.TEAM_01" class="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center hover:bg-[#ff0000] hover:text-white transition text-2xl shadow-sm"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/classic_team.01/" class="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center hover:bg-[#e4405f] hover:text-white transition text-2xl shadow-sm"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-10 border-t border-[var(--pl-border)] flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-[10px] font-black opacity-30 uppercase tracking-[5px]">© 2026 CLASSIC TEAM.</p>
+                <p class="text-[10px] font-black opacity-40 uppercase tracking-[2px]">Designed by <span class="text-[var(--pl-neon)]">Muhammadyusuf</span></p>
+            </div>
+        </div>
+    </footer>
 
     <div id="chat-btn" onclick="toggleChat()"><i class="fa-solid fa-message"></i></div>
     <div id="chat-window" class="chat-panel">
-        <div class="p-4 bg-[var(--pl-purple)] text-white font-bold flex justify-between items-center text-xs tracking-tighter">
-            <span>MUXLISLAR CHATI</span>
-            <button onclick="toggleChat()">&times;</button>
+        <div class="p-5 bg-[var(--pl-purple)] text-white font-black flex justify-between items-center text-xs tracking-widest">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-[var(--pl-neon)] rounded-full animate-pulse"></span>
+                <span>MUXLISLAR CHATI</span>
+            </div>
+            <button onclick="toggleChat()" class="text-3xl leading-none hover:text-[var(--pl-neon)]">&times;</button>
         </div>
-        <div id="chat-body" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3 bg-gray-50 dark:bg-black/20"></div>
-        <div class="p-3 border-t flex gap-2">
-            <input type="text" id="chat-input" placeholder="Xabar..." class="flex-1 bg-transparent text-sm outline-none" onkeypress="if(event.key==='Enter') sendChat()">
-            <button onclick="sendChat()" class="text-[var(--pl-neon)]"><i class="fa-solid fa-paper-plane"></i></button>
+        <div id="chat-body" class="flex-1 overflow-y-auto p-5 flex flex-col gap-4 bg-gray-50 dark:bg-black/40">
+            </div>
+        <div class="p-4 border-t flex gap-3 bg-[var(--pl-card)]">
+            <input type="text" id="chat-input" placeholder="Xabar yozing..." 
+                   class="flex-1 bg-black/5 dark:bg-white/5 px-4 py-2 rounded-xl text-sm outline-none text-[var(--pl-text)] focus:ring-2 ring-[var(--pl-neon)]/30" 
+                   onkeypress="if(event.key==='Enter') sendChat()">
+            <button onclick="sendChat()" class="w-10 h-10 bg-[var(--pl-neon)] text-[var(--pl-purple)] rounded-xl flex items-center justify-center shadow-lg hover:scale-110 transition">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
         </div>
     </div>
 
-    <footer class="py-12 border-t border-black/5 text-center">
-        <div class="pl-font text-3xl font-black italic mb-6 text-[var(--pl-neon)]">CLASSIC TEAM</div>
-        <div class="flex justify-center gap-5 mb-8">
-            <a href="https://t.me/classicteam1" target="_blank" class="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center hover:bg-[#0088cc] hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://www.youtube.com/@CLASSIC.TEAM_01" target="_blank" class="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center hover:bg-[#ff0000] hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://www.instagram.com/classic_team.01/" target="_blank" class="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center hover:bg-[#ff0000] hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-        <p class="text-[9px] font-bold opacity-30 uppercase tracking-[4px]">© 2026 Designed by Muhammadyusuf</p>
-    </footer>
-
     <script>
-        // FIREBASE
         const firebaseConfig = { databaseURL: "https://classicteam-cbf34-default-rtdb.firebaseio.com" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         let currentMode = 'v';
+        let allVideos = [];
         let account = JSON.parse(localStorage.getItem('pl_account')) || {
-            name: "", img: "https://www.w3schools.com/howto/img_avatar.png", tg: "@user"
+            name: "Muxlis", img: "https://www.w3schools.com/howto/img_avatar.png", tg: "@user"
         };
+        
+        // --- YOZUVLAR HAJMINI BOSHQARISH ---
+        let currentZoom = parseInt(localStorage.getItem('site_zoom')) || 100;
 
         window.onload = () => {
-            if (!account.name) {
-                let ism = prompt("Ismingizni kiriting:");
-                account.name = ism || "Muxlis";
-                localStorage.setItem('pl_account', JSON.stringify(account));
-            }
             updateUI();
             listenData();
+            applyZoom();
             if(localStorage.getItem('theme') === 'dark') toggleTheme(true);
         };
+
+        function changeFontSize(delta) {
+            currentZoom += delta * 10;
+            if (currentZoom < 80) currentZoom = 80;
+            if (currentZoom > 150) currentZoom = 150;
+            localStorage.setItem('site_zoom', currentZoom);
+            applyZoom();
+        }
+
+        function applyZoom() {
+            document.documentElement.style.fontSize = (currentZoom / 100) * 16 + 'px';
+            document.getElementById('font-size-val').innerText = currentZoom + '%';
+        }
 
         function updateUI() {
             document.getElementById('nav-avatar').src = account.img;
@@ -280,6 +315,71 @@
             document.getElementById('menu-name').innerText = account.name;
             document.getElementById('menu-tg').innerText = account.tg;
         }
+
+        function listenData() {
+            db.ref('videos').on('value', (snap) => {
+                const val = snap.val();
+                allVideos = [];
+                if (val) {
+                    Object.keys(val).forEach(key => {
+                        allVideos.push({ id: key, ...val[key] });
+                    });
+                }
+                renderContent();
+            });
+        }
+
+        function renderContent() {
+            const grid = document.getElementById('content-grid');
+            const search = document.getElementById('mainSearch').value.toLowerCase();
+            grid.innerHTML = '';
+            
+            if (currentMode === 's') {
+                grid.className = "grid-container grid-cols-2 md:grid-cols-4 lg:grid-cols-5";
+            } else {
+                grid.className = "grid-container grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+            }
+
+            const filtered = allVideos.filter(v => 
+                v.type === currentMode && (v.title || "").toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-20 opacity-30 font-black text-2xl uppercase tracking-widest">Videolar topilmadi...</div>`;
+                return;
+            }
+
+            filtered.reverse().forEach(v => {
+                const vidId = extractID(v.url);
+                if (!vidId) return;
+                const ratio = currentMode === 's' ? 'aspect-[9/16]' : 'aspect-video';
+                grid.innerHTML += `
+                    <div class="video-card">
+                        <div class="relative w-full ${ratio} bg-black shadow-inner">
+                            <iframe class="absolute top-0 left-0 w-full h-full" 
+                                src="https://www.youtube.com/embed/${vidId}?rel=0&modestbranding=1" 
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="pl-font font-black ${currentMode === 's' ? 'text-xs' : 'text-lg'} line-clamp-2 leading-tight uppercase">${v.title}</h3>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function extractID(url) {
+            if (!url) return null;
+            let id = null;
+            try {
+                if (url.includes('shorts/')) id = url.split('shorts/')[1].split(/[?&]/)[0];
+                else if (url.includes('v=')) id = url.split('v=')[1].split('&')[0];
+                else if (url.includes('youtu.be/')) id = url.split('youtu.be/')[1].split(/[?&]/)[0];
+                else if (url.includes('embed/')) id = url.split('embed/')[1].split(/[?&]/)[0];
+            } catch(e) { console.error(e); }
+            return id;
+        }
+
+        function setFilter(f) { currentMode = f; renderContent(); }
 
         function toggleTheme(init = false) {
             const body = document.body;
@@ -296,77 +396,10 @@
             dd.style.display = dd.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        function openSettings() {
-            toggleDropdown();
-            document.getElementById('settings-modal').style.display = 'flex';
-            document.getElementById('edit-name').value = account.name;
-            document.getElementById('edit-img').value = account.img;
-            document.getElementById('edit-tg').value = account.tg;
-        }
-
-        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
-
-        function saveProfile() {
-            account.name = document.getElementById('edit-name').value;
-            account.img = document.getElementById('edit-img').value || "https://www.w3schools.com/howto/img_avatar.png";
-            account.tg = document.getElementById('edit-tg').value;
-            localStorage.setItem('pl_account', JSON.stringify(account));
-            updateUI();
-            closeSettings();
-        }
-
-        function listenData() {
-            db.ref('videos').on('value', (snap) => {
-                window.allVideos = snap.val() ? Object.values(snap.val()) : [];
-                renderContent();
-            });
-        }
-
-        function renderContent() {
-            const grid = document.getElementById('content-grid');
-            const search = document.getElementById('mainSearch').value.toLowerCase();
-            grid.innerHTML = '';
-            
-            const isMobile = window.innerWidth < 480;
-            if (currentMode === 's') {
-                grid.style.gridTemplateColumns = isMobile ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(200px, 1fr))";
-            } else {
-                grid.style.gridTemplateColumns = isMobile ? "1fr" : "repeat(auto-fill, minmax(350px, 1fr))";
-            }
-
-            const filtered = (window.allVideos || []).filter(v => 
-                v.type === currentMode && (v.title || "").toLowerCase().includes(search)
-            );
-
-            filtered.reverse().forEach(v => {
-                const vidId = extractID(v.url);
-                if (!vidId) return;
-                grid.innerHTML += `
-                    <div class="bg-[var(--pl-card)] rounded-xl overflow-hidden border border-[var(--pl-border)] shadow-sm">
-                        <div class="relative w-full" style="padding-top: ${currentMode === 's' ? '170%' : '56.25%'}">
-                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}?rel=0" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="pl-font font-bold ${currentMode === 's' ? 'text-[10px]' : 'text-sm'} line-clamp-2">${v.title}</h3>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        function extractID(url) {
-            let id = null;
-            if (url.includes('shorts/')) id = url.split('shorts/')[1].split(/[?&]/)[0];
-            else if (url.includes('v=')) id = url.split('v=')[1].split('&')[0];
-            else if (url.includes('youtu.be/')) id = url.split('youtu.be/')[1].split(/[?&]/)[0];
-            return id;
-        }
-
-        function setFilter(f) { currentMode = f; renderContent(); }
-
         function toggleChat() {
-            const win = document.getElementById('chat-window');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-        }
+    const win = document.getElementById('chat-window');
+    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+}
 
         function sendChat() {
             const inp = document.getElementById('chat-input');
@@ -378,7 +411,7 @@
             inp.value = '';
         }
 
-        db.ref('chat').limitToLast(20).on('value', (snap) => {
+        db.ref('chat').limitToLast(15).on('value', (snap) => {
             const body = document.getElementById('chat-body');
             body.innerHTML = '';
             const msgs = snap.val();
@@ -386,11 +419,11 @@
                 Object.values(msgs).forEach(m => {
                     const isMe = m.u === account.name;
                     body.innerHTML += `
-                        <div class="flex items-start gap-2 ${isMe ? 'flex-row-reverse' : ''}">
-                            <img src="${m.img}" class="w-7 h-7 rounded-full border border-[var(--pl-neon)]">
-                            <div class="${isMe ? 'bg-[var(--pl-purple)] text-white' : 'bg-white'} p-3 rounded-xl text-[11px] shadow-sm max-w-[80%]">
-                                <p class="font-bold text-[8px] opacity-50 mb-1">${m.u}</p>
-                                <p>${m.t}</p>
+                        <div class="flex items-start gap-3 ${isMe ? 'flex-row-reverse' : ''}">
+                            <img src="${m.img}" class="w-9 h-9 rounded-full border-2 border-[var(--pl-neon)] bg-white shadow-sm">
+                            <div class="${isMe ? 'bg-[var(--pl-purple)] text-white rounded-tr-none' : 'bg-white dark:bg-zinc-800 rounded-tl-none'} p-3 rounded-2xl text-xs shadow-md max-w-[80%]">
+                                <p class="font-black text-[9px] opacity-60 mb-1 uppercase tracking-tighter">${m.u}</p>
+                                <p class="font-semibold leading-relaxed">${m.t}</p>
                             </div>
                         </div>`;
                 });
@@ -399,7 +432,7 @@
         });
 
         window.onclick = (e) => {
-            if (!e.target.closest('.w-10') && !e.target.closest('.profile-dropdown')) {
+            if (!e.target.closest('.pl-nav') && !e.target.closest('.profile-dropdown')) {
                 document.getElementById('profile-dropdown').style.display = 'none';
             }
         }
