@@ -3,91 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classic Team Admin</title>
-    <link rel="icon" type="img/png" sizes="32x32" href="./ChatGPT Image Jan 14, 2026, 06_09_13 PM.png">
+    <title>Classic Team | Admin Terminal</title>
+    <link rel="icon" type="img/png" href="./ChatGPT Image Jan 14, 2026, 06_09_13 PM.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;600;800&display=swap');
-        :root { --pl-purple: #3d195b; --pl-neon: #00ff87; --pl-pink: #ff005a; --pl-bg: #0a0a0b; }
-        body { background: var(--pl-bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        :root { 
+            --pl-purple: #1a0b2e; 
+            --pl-neon: #00ff87; 
+            --pl-pink: #ff005a; 
+            --pl-bg: #050505; 
+            --pl-card: #111115;
+        }
+
+        body { 
+            background: var(--pl-bg); 
+            color: #e0e0e0; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; 
+        }
+
         .pl-font { font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 15px; }
-        .input-field { background: #1a1a1a; border: 1px solid #333; padding: 12px; color: white; width: 100%; border-radius: 8px; outline: none; transition: 0.3s; }
-        .input-field:focus { border-color: var(--pl-neon); box-shadow: 0 0 10px rgba(0,255,135,0.2); }
-        .btn-neon { background: var(--pl-neon); color: var(--pl-purple); font-weight: 900; text-transform: uppercase; transition: 0.3s; cursor: pointer; }
-        .btn-neon:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,135,0.4); }
-        .video-card { border-left: 4px solid var(--pl-neon); background: rgba(255,255,255,0.02); transition: 0.3s; }
+
+        /* Neon Glow Effect */
+        .neon-border { border: 1px solid rgba(0, 255, 135, 0.2); transition: 0.4s; }
+        .neon-border:hover { border-color: var(--pl-neon); box-shadow: 0 0 15px rgba(0, 255, 135, 0.1); }
+
+        .sidebar-item { transition: 0.3s; cursor: pointer; border-radius: 12px; }
+        .sidebar-item:hover { background: rgba(0, 255, 135, 0.1); color: var(--pl-neon); }
+        .sidebar-item.active { background: var(--pl-neon); color: var(--pl-purple); font-weight: 800; }
+
+        .input-dark { 
+            background: #18181b; 
+            border: 1px solid #27272a; 
+            padding: 14px; 
+            color: white; 
+            border-radius: 12px; 
+            outline: none; 
+            transition: 0.3s; 
+        }
+        .input-dark:focus { border-color: var(--pl-neon); background: #202024; }
+
+        .glass-card { 
+            background: var(--pl-card); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--pl-neon); }
+
+        @keyframes pulse-neon {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 135, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(0, 255, 135, 0.4); }
+            100% { box-shadow: 0 0 5px rgba(0, 255, 135, 0.2); }
+        }
+        .animate-neon { animation: pulse-neon 2s infinite; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="bg-black min-h-screen">
 
-    <div id="lock" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-[1000] transition-all duration-500">
-        <i class="fa-solid fa-shield-halved text-6xl text-[var(--pl-neon)] mb-6 animate-pulse"></i>
-        <input type="password" id="p" placeholder="Core Password" class="bg-transparent border-b-2 border-white text-center text-2xl outline-none w-64" onchange="checkPass(this.value)">
-    </div>
-
-    <div class="max-w-7xl mx-auto">
-        <header class="flex justify-between items-end mb-12">
-            <div>
-                <h1 class="pl-font text-5xl font-black italic text-[var(--pl-neon)]">Core<span class="text-white">Panel</span></h1>
-                <p class="text-gray-500 text-xs tracking-[0.3em] uppercase">Premier Arena Firebase System</p>
+    <div id="lock" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-[2000] transition-all duration-700">
+        <div class="text-center">
+            <div class="mb-8 relative inline-block">
+                <div class="absolute inset-0 blur-2xl bg-[var(--pl-neon)] opacity-20"></div>
+                <i class="fa-solid fa-user-shield text-7xl text-[var(--pl-neon)] relative z-10"></i>
             </div>
-            <div id="clock" class="text-2xl font-mono hidden md:block text-emerald-400">00:00:00</div>
-        </header>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="glass p-8 h-fit sticky top-10">
-                <h2 class="pl-font text-2xl mb-6 flex items-center gap-3">
-                    <i class="fa-solid fa-circle-plus text-[var(--pl-neon)]"></i> 
-                    <span id="form-title">Yangi Content</span>
-                </h2>
-                <div class="space-y-4">
-                    <input type="hidden" id="edit-id">
-                    <div>
-                        <label class="text-[10px] uppercase text-gray-400 ml-1">Video Sarlavhasi</label>
-                        <input id="t" placeholder="Arsenal vs City" class="input-field">
-                    </div>
-                    <div>
-                        <label class="text-[10px] uppercase text-gray-400 ml-1">Turkum</label>
-                        <select id="type" class="input-field">
-                            <option value="v">Asosiy Video (16:9)</option>
-                            <option value="s">Shorts (9:16)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] uppercase text-gray-400 ml-1">YouTube URL</label>
-                        <input id="u" placeholder="https://youtube.com/..." class="input-field">
-                    </div>
-                    <button id="main-btn" onclick="handleSubmit()" class="w-full btn-neon py-4 rounded-lg mt-4">Publish To Arena</button>
-                    <button id="cancel-btn" onclick="resetForm()" class="w-full bg-white/10 py-2 rounded-lg text-xs hidden mt-2">Bekor qilish</button>
-                </div>
+            <h2 class="pl-font text-3xl font-black mb-4 tracking-tighter">Admin Terminal Access</h2>
+            <div class="relative">
+                <input type="password" id="p" placeholder="Enter Core Key" 
+                       class="bg-white/5 border-2 border-white/10 px-8 py-4 rounded-full text-center text-xl outline-none focus:border-[var(--pl-neon)] transition-all w-72" 
+                       onchange="checkPass(this.value)">
             </div>
-
-            <div class="lg:col-span-2 space-y-6">
-                <h2 class="pl-font text-2xl">Barcha Videolar (<span id="count">0</span>)</h2>
-                <div id="video-list" class="grid grid-cols-1 gap-4">
-                    </div>
-
-                <div class="glass flex flex-col h-[400px] mt-10 overflow-hidden">
-                    <div class="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
-                        <span class="pl-font tracking-widest text-[var(--pl-neon)]">Live Chat Monitor</span>
-                        <button onclick="clearChat()" class="text-[10px] text-red-500 hover:underline">PURGE ALL</button>
-                    </div>
-                    <div id="logs" class="flex-1 overflow-y-auto p-6 space-y-4 font-mono text-sm"></div>
-                    <div class="p-4 flex gap-2 bg-black/50">
-                        <input id="reply" placeholder="Admin nomidan javob..." class="flex-1 bg-transparent border-b border-white/20 outline-none p-2 focus:border-[var(--pl-neon)]">
-                        <button onclick="reply()" class="btn-neon px-6 rounded text-xs">Reply</button>
-                    </div>
-                </div>
-            </div>
+            <p class="text-white/20 text-[10px] mt-8 uppercase tracking-[0.5em]">System Protected by Classic Team</p>
         </div>
     </div>
 
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <aside class="w-full lg:w-80 bg-black border-r border-white/5 p-6 flex flex-col gap-8">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-10 h-10 bg-[var(--pl-neon)] rounded-xl flex items-center justify-center text-[var(--pl-purple)] shadow-[0_0_20px_rgba(0,255,135,0.3)]">
+                    <i class="fa-solid fa-bolt-lightning text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="pl-font text-2xl font-black leading-none italic">CORE<span class="text-[var(--pl-neon)]">PANEL</span></h1>
+                    <span class="text-[9px] text-white/30 tracking-[0.3em] uppercase">Control System v4.0</span>
+                </div>
+            </div>
+
+            <nav class="flex flex-col gap-2">
+                <div class="sidebar-item active p-4 flex items-center gap-4">
+                    <i class="fa-solid fa-house-chimney"></i> Dashboard
+                </div>
+                <div onclick="resetForm()" class="sidebar-item p-4 flex items-center gap-4 text-white/60">
+                    <i class="fa-solid fa-plus-circle"></i> Yangi Content
+                </div>
+                <div onclick="alert('Tez kunda...')" class="sidebar-item p-4 flex items-center gap-4 text-white/60">
+                    <i class="fa-solid fa-chart-line"></i> Statistika
+                </div>
+                <div onclick="location.reload()" class="sidebar-item p-4 flex items-center gap-4 text-white/60">
+                    <i class="fa-solid fa-rotate"></i> Yangilash
+                </div>
+            </nav>
+
+            <div class="mt-auto p-5 glass-card border-[var(--pl-neon)]/20">
+                <p class="text-[10px] text-white/40 uppercase mb-2">Server Status</p>
+                <div class="flex items-center gap-2 text-xs font-bold text-[var(--pl-neon)]">
+                    <span class="w-2 h-2 bg-[var(--pl-neon)] rounded-full animate-pulse"></span>
+                    ONLINE & STABLE
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-4 md:p-10 lg:p-12 overflow-y-auto">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+                <div>
+                    <h2 class="text-3xl font-black pl-font">Boshqaruv <span class="text-white/30">Markazi</span></h2>
+                    <p class="text-white/40 text-sm">Xush kelibsiz, Admin. Barcha tizimlar soz holatda.</p>
+                </div>
+                <div class="flex gap-4">
+                    <div class="glass-card px-6 py-3 text-right">
+                        <div id="clock" class="text-xl font-black text-[var(--pl-neon)]">00:00:00</div>
+                        <div class="text-[9px] text-white/30 uppercase tracking-widest">Global Server Time</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="glass-card p-6 neon-border">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fa-solid fa-video text-2xl text-[var(--pl-neon)]"></i>
+                        <span class="text-xs bg-white/5 px-2 py-1 rounded">Total</span>
+                    </div>
+                    <div class="text-4xl font-black pl-font" id="count">0</div>
+                    <div class="text-xs text-white/40 mt-1 uppercase">Yuklangan Videolar</div>
+                </div>
+                <div class="glass-card p-6 neon-border">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fa-solid fa-comments text-2xl text-[var(--pl-pink)]"></i>
+                        <span class="text-xs bg-white/5 px-2 py-1 rounded">Live</span>
+                    </div>
+                    <div class="text-4xl font-black pl-font" id="chat-count">0</div>
+                    <div class="text-xs text-white/40 mt-1 uppercase">Chat xabarlari</div>
+                </div>
+                <div class="glass-card p-6 neon-border">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fa-solid fa-users text-2xl text-blue-500"></i>
+                        <span class="text-xs bg-white/5 px-2 py-1 rounded">Active</span>
+                    </div>
+                    <div class="text-4xl font-black pl-font">∞</div>
+                    <div class="text-xs text-white/40 mt-1 uppercase">Foydalanuvchilar</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-10">
+                <div class="space-y-6">
+                    <div class="glass-card p-8">
+                        <h3 class="pl-font text-xl font-black mb-8 flex items-center gap-3">
+                            <i class="fa-solid fa-square-plus text-[var(--pl-neon)]"></i>
+                            <span id="form-title">Yangi Content Qo'shish</span>
+                        </h3>
+                        <div class="grid grid-cols-1 gap-5">
+                            <input type="hidden" id="edit-id">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[10px] uppercase font-bold text-white/30 ml-1">Video Sarlavhasi</label>
+                                <input id="t" placeholder="Masalan: Final O'yini 2026" class="input-dark">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[10px] uppercase font-bold text-white/30 ml-1">Turkum</label>
+                                <select id="type" class="input-dark cursor-pointer">
+                                    <option value="v">Asosiy Video (16:9)</option>
+                                    <option value="s">Shorts (9:16)</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[10px] uppercase font-bold text-white/30 ml-1">YouTube URL</label>
+                                <input id="u" placeholder="https://www.youtube.com/watch?v=..." class="input-dark">
+                            </div>
+                            <button id="main-btn" onclick="handleSubmit()" class="bg-[var(--pl-neon)] text-[var(--pl-purple)] py-5 rounded-xl font-black uppercase tracking-widest hover:scale-[1.02] transition active:scale-95 mt-4 shadow-[0_10px_30px_rgba(0,255,135,0.2)]">
+                                Publish To Arena
+                            </button>
+                            <button id="cancel-btn" onclick="resetForm()" class="bg-white/5 py-3 rounded-xl text-xs font-bold uppercase hidden">
+                                Bekor qilish
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card flex flex-col h-[500px] overflow-hidden border-t-4 border-[var(--pl-pink)]">
+                        <div class="p-5 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-tower-broadcast text-[var(--pl-pink)] animate-pulse"></i>
+                                <span class="pl-font font-black tracking-widest">Chat Terminal</span>
+                            </div>
+                            <button onclick="clearChat()" class="text-[10px] bg-red-500/10 text-red-500 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition">PURGE</button>
+                        </div>
+                        <div id="logs" class="flex-1 overflow-y-auto p-6 space-y-4 font-medium text-sm">
+                            </div>
+                        <div class="p-4 bg-black/40 flex gap-3 border-t border-white/5">
+                            <input id="reply" placeholder="Admin xabari..." class="flex-1 bg-white/5 rounded-lg px-4 outline-none focus:ring-1 ring-[var(--pl-neon)] text-sm">
+                            <button onclick="reply()" class="bg-[var(--pl-pink)] text-white px-6 py-2 rounded-lg font-black text-xs uppercase hover:opacity-80">Reply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 flex flex-col h-[1050px]">
+                    <h3 class="pl-font text-xl font-black mb-8 flex justify-between items-center">
+                        <span>Bazadagi Videolar</span>
+                        <i class="fa-solid fa-list-ul text-white/20"></i>
+                    </h3>
+                    <div id="video-list" class="flex flex-col gap-4 overflow-y-auto pr-2">
+                        </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script>
-        // 1. FIREBASE KONFIGURATSIYASI
         const firebaseConfig = { databaseURL: "https://classicteam-cbf34-default-rtdb.firebaseio.com" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -96,12 +236,14 @@
 
         function checkPass(v) {
             if(v === 'admin77') {
-                document.getElementById('lock').style.opacity = '0';
-                setTimeout(() => document.getElementById('lock').remove(), 500);
+                document.getElementById('lock').style.transform = 'translateY(-100%)';
+                setTimeout(() => document.getElementById('lock').remove(), 700);
+            } else {
+                alert("Core Key Xato!");
+                document.getElementById('p').value = '';
             }
         }
 
-        // 2. MA'LUMOT YUBORISH (SUBMIT)
         function handleSubmit() {
             const t = document.getElementById('t').value;
             const type = document.getElementById('type').value;
@@ -118,41 +260,37 @@
             };
 
             if(isEdit) {
-                // Tahrirlash
-                database.ref('videos/' + editId).update(videoData)
-                .then(() => { alert("Video yangilandi!"); resetForm(); });
+                database.ref('videos/' + editId).update(videoData).then(() => { resetForm(); });
             } else {
-                // Yangi qo'shish
-                database.ref('videos').push(videoData)
-                .then(() => { alert("Video qo'shildi!"); resetForm(); });
+                database.ref('videos').push(videoData).then(() => { resetForm(); });
             }
         }
 
-        // 3. VIDEOLARNI REAL-TIME KO'RSATISH
         database.ref('videos').on('value', (snapshot) => {
             const list = document.getElementById('video-list');
             const data = snapshot.val();
             list.innerHTML = "";
             let counter = 0;
-
             if (data) {
-                // Yangilari tepada chiqishi uchun teskari tartibda chiqaramiz
                 const keys = Object.keys(data).reverse();
                 keys.forEach(key => {
                     const v = data[key];
                     counter++;
                     list.innerHTML += `
-                        <div class="video-card p-4 rounded-r-lg flex justify-between items-center group">
+                        <div class="group bg-white/5 border border-white/5 p-4 rounded-2xl flex justify-between items-center hover:bg-white/10 transition-all border-l-4 border-l-[var(--pl-neon)]">
                             <div class="flex items-center gap-4">
-                                <div class="text-[var(--pl-neon)] font-black italic">#${counter}</div>
+                                <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center font-black italic text-[var(--pl-neon)]">#${counter}</div>
                                 <div>
-                                    <h4 class="font-bold text-white group-hover:text-[var(--pl-neon)] transition">${v.title}</h4>
-                                    <span class="text-[10px] text-gray-500 uppercase">${v.type === 'v' ? 'Video' : 'Shorts'}</span>
+                                    <h4 class="font-bold text-white group-hover:text-[var(--pl-neon)] transition line-clamp-1">${v.title}</h4>
+                                    <div class="flex gap-3 mt-1">
+                                        <span class="text-[9px] font-black px-2 py-0.5 bg-[var(--pl-neon)] text-black rounded uppercase">${v.type === 'v' ? '16:9' : '9:16'}</span>
+                                        <span class="text-[9px] text-white/30 uppercase tracking-tighter">${v.type === 'v' ? 'Main Video' : 'Shorts Content'}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex gap-2">
-                                <button onclick="editVideo('${key}')" class="p-2 hover:bg-blue-500/20 text-blue-400 rounded transition"><i class="fa-solid fa-pen"></i></button>
-                                <button onclick="deleteVideo('${key}')" class="p-2 hover:bg-red-500/20 text-red-400 rounded transition"><i class="fa-solid fa-trash"></i></button>
+                            <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                                <button onclick="editVideo('${key}')" class="w-9 h-9 flex items-center justify-center bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition"><i class="fa-solid fa-pen text-xs"></i></button>
+                                <button onclick="deleteVideo('${key}')" class="w-9 h-9 flex items-center justify-center bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition"><i class="fa-solid fa-trash text-xs"></i></button>
                             </div>
                         </div>
                     `;
@@ -161,7 +299,6 @@
             document.getElementById('count').innerText = counter;
         });
 
-        // 4. TAHRIRLASH VA O'CHIRISH
         function editVideo(key) {
             database.ref('videos/' + key).once('value').then((snap) => {
                 const v = snap.val();
@@ -170,35 +307,41 @@
                 document.getElementById('type').value = v.type;
                 document.getElementById('u').value = v.url;
                 document.getElementById('edit-id').value = key;
-                document.getElementById('form-title').innerText = "Tahrirlash";
-                document.getElementById('main-btn').innerText = "Update Now";
+                document.getElementById('form-title').innerText = "Kontentni Tahrirlash";
+                document.getElementById('main-btn').innerText = "Tizimni Yangilash";
                 document.getElementById('cancel-btn').classList.remove('hidden');
                 window.scrollTo({top: 0, behavior: 'smooth'});
             });
         }
 
         function deleteVideo(key) {
-            if(confirm("Ushbu videoni bazadan butunlay o'chirmoqchimisiz?")) {
+            if(confirm("Ushbu videoni butunlay o'chirasizmi?")) {
                 database.ref('videos/' + key).remove();
             }
         }
 
-        // 5. CHAT MONITORING
         database.ref('chat').on('value', (snapshot) => {
             const logs = document.getElementById('logs');
             const data = snapshot.val();
             logs.innerHTML = "";
+            let chatCount = 0;
             if(data) {
                 Object.values(data).forEach(m => {
+                    chatCount++;
+                    const isAdmin = m.r === 'admin';
                     logs.innerHTML += `
-                        <div class="${m.r === 'admin' ? 'text-[var(--pl-neon)] border-l border-[var(--pl-neon)] pl-2' : 'text-white opacity-60'} mb-2">
-                            <span class="text-[10px] opacity-40">[${m.time || '00:00'}]</span> 
-                            <strong>${m.u}:</strong> ${m.t}
+                        <div class="${isAdmin ? 'bg-[var(--pl-neon)]/10 border-l-2 border-[var(--pl-neon)]' : 'bg-white/5'} p-3 rounded-r-xl">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="text-[10px] font-black ${isAdmin ? 'text-[var(--pl-neon)]' : 'text-white/40'} uppercase">${m.u}</span>
+                                <span class="text-[9px] text-white/20">${m.time || '00:00'}</span>
+                            </div>
+                            <p class="text-white/80 leading-relaxed">${m.t}</p>
                         </div>
                     `;
                 });
                 logs.scrollTop = logs.scrollHeight;
             }
+            document.getElementById('chat-count').innerText = chatCount;
         });
 
         function reply() {
@@ -208,13 +351,13 @@
                 u: 'ADMIN (Classic Team)',
                 t: r.value,
                 r: 'admin',
-                time: new Date().toLocaleTimeString()
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
             });
             r.value = '';
         }
 
         function clearChat() {
-            if(confirm("Barcha yozishmalarni o'chirib tashlaysizmi?")) {
+            if(confirm("Barcha xabarlarni tozalash?")) {
                 database.ref('chat').remove();
             }
         }
@@ -233,7 +376,7 @@
             document.getElementById('t').value = '';
             document.getElementById('u').value = '';
             document.getElementById('edit-id').value = '';
-            document.getElementById('form-title').innerText = "Yangi Content";
+            document.getElementById('form-title').innerText = "Yangi Content Qo'shish";
             document.getElementById('main-btn').innerText = "Publish To Arena";
             document.getElementById('cancel-btn').classList.add('hidden');
         }
@@ -243,5 +386,4 @@
         }, 1000);
     </script>
 </body>
-
 </html>
