@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Team | Mahalla Futboli</title>
+    <link rel="icon" type="image/png" href="./ChatGPT Image Jan 14, 2026, 06_09_13 PM.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <style>
+        :root {
+            --pl-purple: #3d195b;
+            --pl-neon: #00ff87;
+            --pl-bg: #f9f9f9;
+            --pl-card: #ffffff;
+            --pl-text: #111111;
+            --pl-border: rgba(0,0,0,0.1);
+            --pl-gradient: linear-gradient(135deg, #3d195b 0%, #240b36 100%);
+        }
+
+        body.dark-mode {
+            --pl-bg: #0d0d0d;
+            --pl-card: #181818;
+            --pl-text: #eeeeee;
+            --pl-border: rgba(255,255,255,0.1);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--pl-bg); color: var(--pl-text); transition: 0.3s; }
+        .pl-font { font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
+
+        .pl-nav {
+            background: var(--pl-card); padding: 0.8rem 5%; position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--pl-border); box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .hero {
+            min-height: 60vh; background: var(--pl-gradient); position: relative;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+        }
+
+        .grid-container { display: grid; gap: 20px; padding: 40px 5%; }
+
+        /* Chat dizayni tuzatilgan */
+        .chat-panel {
+            position: fixed; bottom: 100px; right: 30px; width: 320px; height: 450px;
+            background: var(--pl-card); border-radius: 20px; display: none; flex-direction: column;
+            border: 1px solid var(--pl-border); z-index: 1000; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        #chat-body { padding: 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; }
+        
+        .message-bubble { max-width: 80%; padding: 10px 14px; border-radius: 15px; font-size: 13px; position: relative; }
+        .my-msg { align-self: flex-end; background: var(--pl-purple); color: white; border-bottom-right-radius: 2px; }
+        .other-msg { align-self: flex-start; background: #e9ecef; color: black; border-bottom-left-radius: 2px; }
+        
+        .profile-dropdown {
+            position: absolute; top: 70px; right: 5%; width: 280px; background: var(--pl-card);
+            border-radius: 16px; padding: 20px; display: none; z-index: 1100; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <nav class="pl-nav">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-[var(--pl-neon)] cursor-pointer" onclick="toggleDropdown()">
+                <img id="nav-avatar" src="https://www.w3schools.com/howto/img_avatar.png" class="w-full h-full object-cover">
+            </div>
+            <div class="pl-font text-xl font-black italic">CLASSIC<span class="text-[var(--pl-neon)]">TEAM</span></div>
+        </div>
+        <div class="hidden md:flex gap-8 font-bold text-sm">
+            <div class="cursor-pointer hover:text-[var(--pl-neon)]" onclick="setFilter('v')">VIDEOLAR</div>
+            <div class="cursor-pointer hover:text-[var(--pl-neon)]" onclick="setFilter('s')">SHORTS</div>
+        </div>
+        <input type="text" id="mainSearch" oninput="renderContent()" placeholder="Qidiruv..." class="bg-black/5 border px-4 py-2 rounded-full text-xs outline-none w-40 focus:w-56 transition-all">
+    </nav>
+
+    <header class="hero">
+        <div class="px-6">
+            <h1 class="pl-font text-6xl md:text-8xl font-black italic">CLASSIC <span class="text-[var(--pl-neon)]">TEAM</span></h1>
+            <p class="opacity-80 tracking-widest font-bold">MAHALLA FUTBOLI AFSONASI</p>
+        </div>
+    </header>
+
+    <main id="arena">
+        <div id="content-grid" class="grid-container">
+            </div>
+    </main>
+
+    <div id="chat-btn" class="fixed bottom-8 right-8 w-14 h-14 bg-[var(--pl-neon)] rounded-full flex items-center justify-center cursor-pointer shadow-lg z-50" onclick="toggleChat()">
+        <i class="fa-solid fa-comments text-2xl text-[var(--pl-purple)]"></i>
+    </div>
+
+    <div id="chat-window" class="chat-panel">
+        <div class="p-4 bg-[var(--pl-purple)] text-white font-bold flex justify-between items-center">
+            <span>MUXLISLAR CHATI</span>
+            <button onclick="toggleChat()">&times;</button>
+        </div>
+        <div id="chat-body"></div>
+        <div class="p-3 border-t flex gap-2">
+            <input type="text" id="chat-input" placeholder="Xabarni yozing..." class="flex-1 outline-none text-sm p-2">
+            <button onclick="sendChat()" class="text-[var(--pl-neon)] px-2"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = { databaseURL: "https://classicteam-cbf34-default-rtdb.firebaseio.com" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let currentMode = 'v';
+        let allVideos = [];
+        let account = JSON.parse(localStorage.getItem('pl_account')) || { name: "Muxlis", img: "https://www.w3schools.com/howto/img_avatar.png" };
+
+        // 1-Yechim: Videolarni Firebase'dan olishni to'g'irlash
+        function listenData() {
+            db.ref('videos').on('value', (snap) => {
+                const data = snap.val();
+                if (data) {
+                    // Firebase ob'ektni massivga o'girish
+                    allVideos = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                    renderContent();
+                } else {
+                    document.getElementById('content-grid').innerHTML = "<p class='text-center opacity-50'>Hozircha videolar yo'q</p>";
+                }
+            });
+        }
+
+        function renderContent() {
+            const grid = document.getElementById('content-grid');
+            const search = document.getElementById('mainSearch').value.toLowerCase();
+            grid.innerHTML = '';
+
+            const isMobile = window.innerWidth < 480;
+            grid.style.gridTemplateColumns = currentMode === 's' 
+                ? (isMobile ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(200px, 1fr))")
+                : (isMobile ? "1fr" : "repeat(auto-fill, minmax(350px, 1fr))");
+
+            const filtered = allVideos.filter(v => v.type === currentMode && (v.title || "").toLowerCase().includes(search));
+
+            filtered.reverse().forEach(v => {
+                const vidId = extractID(v.url);
+                grid.innerHTML += `
+                    <div class="bg-[var(--pl-card)] rounded-xl overflow-hidden border border-[var(--pl-border)] shadow-md hover:scale-[1.02] transition">
+                        <div class="relative w-full" style="padding-top: ${currentMode === 's' ? '170%' : '56.25%'}">
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-sm line-clamp-2">${v.title}</h3>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function extractID(url) {
+            if (!url) return "";
+            let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            let match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : url.split('shorts/')[1]?.split('?')[0];
+        }
+
+        function setFilter(f) { currentMode = f; renderContent(); }
+
+        // 2-Yechim: Chat dizayni va ishlashi
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendChat() {
+            const inp = document.getElementById('chat-input');
+            if(!inp.value.trim()) return;
+            db.ref('chat').push({
+                u: account.name, t: inp.value, img: account.img,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            });
+            inp.value = '';
+        }
+
+        db.ref('chat').limitToLast(20).on('value', (snap) => {
+            const body = document.getElementById('chat-body');
+            body.innerHTML = '';
+            snap.forEach(child => {
+                const m = child.val();
+                const isMe = m.u === account.name;
+                body.innerHTML += `
+                    <div class="${isMe ? 'flex flex-row-reverse' : 'flex'} items-end gap-2">
+                        <img src="${m.img}" class="w-6 h-6 rounded-full">
+                        <div class="message-bubble ${isMe ? 'my-msg' : 'other-msg'}">
+                            <p class="text-[10px] opacity-70 font-bold">${m.u}</p>
+                            <p>${m.t}</p>
+                            <span class="text-[8px] block text-right mt-1 opacity-50">${m.time}</span>
+                        </div>
+                    </div>`;
+            });
+            body.scrollTop = body.scrollHeight;
+        });
+
+        function toggleDropdown() { /* Profil menyu funksiyasi */ }
+
+        window.onload = () => { listenData(); };
+    </script>
+</body>
+</html>
